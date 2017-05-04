@@ -140,7 +140,7 @@
 
     window.setInterval(function () {
         if ((marker != null) && (ws.readyState == 1)) {
-            ws.send(JSON.stringify({rider: uuid, lngLat: marker.getLngLat(), status: status, driver: driver}));
+            ws.send(JSON.stringify({rider: uuid, lngLat: marker.getLngLat(), status: status, driver: driver, timestamp: new Date().getTime()}));
         }
     }, 500);
     /*]]>*/
