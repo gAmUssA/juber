@@ -33,6 +33,7 @@ repositories {
 
 
 dependencies {
+	compile project(':juber-common')
 	compile('org.springframework.boot:spring-boot-starter-cache')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
