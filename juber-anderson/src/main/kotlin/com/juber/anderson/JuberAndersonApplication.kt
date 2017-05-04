@@ -3,7 +3,6 @@ package com.juber.anderson
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.juber.model.Message
 import com.juber.kafka.MessageSerializer
-import com.juber.kafka.SimplePartitioner
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization.StringSerializer

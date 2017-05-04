@@ -25,7 +25,7 @@ subprojects {
         }
     }
 
-    dependencies{
+    dependencies {
         compile 'org.slf4j:slf4j-api:1.7.25'
         compile 'ch.qos.logback:logback-classic:1.2.2'
         compile 'org.slf4j:log4j-over-slf4j:1.7.25'
@@ -33,19 +33,29 @@ subprojects {
 
 }
 
+project(':juber-common') {
+    apply plugin: 'groovy'
+    dependencies {
+        compile('org.codehaus.groovy:groovy-all:2.4.11')
+    }
+}
+
 project(':jet-engine') {
+    apply plugin: 'groovy'
 
     dependencies {
-        // compile "com.hazelcast.jet:hazelcast-jet:${hazelcastJetVersion}"
+
+        compile('org.codehaus.groovy:groovy-all:2.4.11')
+        compile "com.hazelcast.jet:hazelcast-jet:${hazelcastJetVersion}"
         // TODO: remove
         // workaround https://github.com/hazelcast/hazelcast-jet/issues/366
-//    compile 'javax.cache:cache-api:1.0.0'
+        //  compile 'javax.cache:cache-api:1.0.0'
 
         // hazelcast
         compile "com.hazelcast:hazelcast-all:${hazelcastVersion}"
 
         // stuff
-        compileOnly('org.projectlombok:lombok:1.16.10')
+        // compileOnly('org.projectlombok:lombok:1.16.10')
     }
 }
 project(':kafka-server') {
