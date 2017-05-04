@@ -58,10 +58,14 @@ project(':jet-engine') {
         // compileOnly('org.projectlombok:lombok:1.16.10')
     }
 }
+// TODO: rename project to juber-kafka
 project(':kafka-server') {
     apply plugin: 'groovy'
     dependencies {
+        compile project(':juber-common')
         compile('org.codehaus.groovy:groovy-all:2.4.11')
+        compile ('com.fasterxml.jackson.core:jackson-core:2.8.8')
+        compile ('com.fasterxml.jackson.core:jackson-databind:2.8.8')
         compile("org.apache.kafka:kafka_${scalaVersion}:${kafkaVersion}") {
             exclude([group: 'org.slf4j', module: 'slf4j-log4j12'])
         }
