@@ -24,15 +24,17 @@ repositories {
     }
 }
 
+project(':jet-engine') {
+    compile "com.hazelcast.jet:hazelcast-jet:${hazelcastJetVersion}"
+    // TODO: remove
+    // workaround https://github.com/hazelcast/hazelcast-jet/issues/366
+    compile 'javax.cache:cache-api:1.0.0'
+}
 
 dependencies {
 
     // hazelcast
     compile "com.hazelcast:hazelcast-all:${hazelcastVersion}"
-    compile "com.hazelcast.jet:hazelcast-jet:${hazelcastJetVersion}"
-    // TODO: remove
-    // workaround https://github.com/hazelcast/hazelcast-jet/issues/366
-    compile 'javax.cache:cache-api:1.0.0'
 
     // stuff
     compileOnly('org.projectlombok:lombok:1.16.10')

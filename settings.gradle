@@ -4,5 +4,6 @@ include 'shared'
 include 'api'
 include 'services:webservice'
 */
-
-rootProject.name = 'project copenhagen'
+include 'jet-engine'
+include 'webapp'
+rootProject.name = 'juber'
