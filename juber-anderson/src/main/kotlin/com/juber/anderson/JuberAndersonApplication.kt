@@ -1,6 +1,12 @@
 package com.juber.anderson
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.juber.model.Message
+import com.juber.kafka.MessageSerializer
+import com.juber.kafka.SimplePartitioner
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -16,6 +22,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 import org.springframework.web.socket.handler.TextWebSocketHandler
+import java.util.*
 
 @SpringBootApplication
 class JuberAndersonApplication
@@ -37,6 +44,19 @@ class WebSocketConfiguration(@Autowired val webSocketHandler: WebSocketHandler) 
 class Configuration {
     @Bean
     fun serializer() = ObjectMapper()
+
+    @Bean
+    fun kafka_client(): KafkaProducer<String, Message> {
+        val properties = Properties().apply {
+            put("metadata.broker.list", "localhost:9092")
+            put("key.serializer", StringSerializer::class.java.canonicalName)
+            put("value.serializer", MessageSerializer::class.java.canonicalName)
+            //put("partitioner.class", SimplePartitioner::class.java.canonicalName)
+            put("request.required.acks", "1")
+        }
+
+        return KafkaProducer(properties)
+    }
 }
 
 @Controller
@@ -59,31 +79,22 @@ class ViewController {
 }
 
 @Component
-class WebSocketHandler(@Autowired val serializer: ObjectMapper) : TextWebSocketHandler() {
+class WebSocketHandler(@Autowired val serializer: ObjectMapper,
+                       @Autowired val kafkaProducer: KafkaProducer<String, Message>) : TextWebSocketHandler() {
+
     override fun handleTextMessage(session: WebSocketSession, textMessage: TextMessage) {
         val payload = textMessage.payload
         val message = serializer.readValue(payload, Message::class.java)
 
         val uri = session.uri
         if (uri.path.contains("rider-ws")) {
-            // TODO Kafka integration
             println("Rider-WS: " + payload)
+            kafkaProducer.send(ProducerRecord<String, Message>("RIDER", message.timestamp.toString(), message))
+
         } else {
-            // TODO Kafka integration
             println("Driver-WS: " + payload)
+            kafkaProducer.send(ProducerRecord<String, Message>("DRIVER", message.timestamp.toString(), message))
         }
     }
 }
 
-class Message {
-    var driver: String? = null
-    var lngLat: LngLat? = null
-    var rider: String? = null
-    var status: String? = null
-}
-
-class LngLat {
-
-    var lat: Double? = null
-    var lng: Double? = null
-}
