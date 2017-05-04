@@ -1,6 +1,7 @@
 package com.juber.anderson
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.juber.kafka.MessageSerializer
 import com.juber.model.Message
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
