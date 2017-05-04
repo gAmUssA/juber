@@ -1,47 +1,71 @@
-apply plugin: 'java'
-apply plugin: 'idea'
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 
-repositories {
-    jcenter()
-    mavenLocal()
+    repositories {
+        jcenter()
+        mavenLocal()
 
-    maven {
-        name 'Hazelcast OSS Snapshots'
-        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        maven {
+            name 'Hazelcast OSS Snapshots'
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+
+        maven {
+            name 'Hazelcast Enterprise Releases'
+            url 'https://repository-hazelcast-l337.forge.cloudbees.com/release/'
+        }
+
+        maven {
+            name 'Hazelcast Enterprise Snapshots'
+            url 'https://repository-hazelcast-l337.forge.cloudbees.com/snapshot/'
+        }
     }
 
-    maven {
-        name 'Hazelcast Enterprise Releases'
-        url 'https://repository-hazelcast-l337.forge.cloudbees.com/release/'
+    dependencies{
+        compile 'org.slf4j:slf4j-api:1.7.25'
+        compile 'ch.qos.logback:logback-classic:1.2.2'
+        compile 'org.slf4j:log4j-over-slf4j:1.7.25'
     }
 
-    maven {
-        name 'Hazelcast Enterprise Snapshots'
-        url 'https://repository-hazelcast-l337.forge.cloudbees.com/snapshot/'
-    }
 }
 
 project(':jet-engine') {
-    compile "com.hazelcast.jet:hazelcast-jet:${hazelcastJetVersion}"
-    // TODO: remove
-    // workaround https://github.com/hazelcast/hazelcast-jet/issues/366
-    compile 'javax.cache:cache-api:1.0.0'
+
+    dependencies {
+        // compile "com.hazelcast.jet:hazelcast-jet:${hazelcastJetVersion}"
+        // TODO: remove
+        // workaround https://github.com/hazelcast/hazelcast-jet/issues/366
+//    compile 'javax.cache:cache-api:1.0.0'
+
+        // hazelcast
+        compile "com.hazelcast:hazelcast-all:${hazelcastVersion}"
+
+        // stuff
+        compileOnly('org.projectlombok:lombok:1.16.10')
+    }
+}
+project(':kafka-server') {
+    apply plugin: 'groovy'
+    dependencies {
+        compile('org.codehaus.groovy:groovy-all:2.4.11')
+        compile("org.apache.kafka:kafka_${scalaVersion}:${kafkaVersion}") {
+            exclude([group: 'org.slf4j', module: 'slf4j-log4j12'])
+        }
+
+        compile("org.apache.kafka:kafka_${scalaVersion}:${kafkaVersion}:test") {
+            exclude([group: 'org.slf4j', module: 'slf4j-log4j12'])
+        }
+        compile "org.apache.kafka:kafka-clients:${kafkaVersion}:test"
+
+    }
 }
 
-dependencies {
-
-    // hazelcast
-    compile "com.hazelcast:hazelcast-all:${hazelcastVersion}"
-
-    // stuff
-    compileOnly('org.projectlombok:lombok:1.16.10')
-    compile('org.codehaus.groovy:groovy-all:2.4.11')
-}
-
+/*
 task collectJars(type: Copy) {
     into "$buildDir/dependencies"
     from configurations.testRuntime
-}
+}*/
