@@ -4,6 +4,7 @@
         xmlns="http://www.hazelcast.com/schema/config"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+    <management-center enabled="true">http://localhost:8080/mancenter</management-center>
     <network>
         <join>
             <multicast enabled="true"/>

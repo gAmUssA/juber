@@ -1,3 +1,5 @@
+package com.juber.kafka
+
 import groovy.transform.CompileStatic
 import groovy.util.logging.Log4j
 import kafka.server.KafkaConfig
@@ -23,7 +25,7 @@ class KafkaServerStarter {
         def starter = new KafkaServerStarter()
 
         starter.createKafkaCluster()
-        //Runtime.getRuntime().addShutdownHook(new Thread({ starter.shutdownKafkaCluster() }))
+        Runtime.getRuntime().addShutdownHook(new Thread({ starter.shutdownKafkaCluster() }))
 
     }
 
@@ -50,7 +52,7 @@ class KafkaServerStarter {
         zkServer.shutdown()
     }
 
-    private static Properties props(String... kvs) {
+    static Properties props(String... kvs) {
         final Properties props = new Properties()
         for (int i = 0; i < kvs.length;) {
             props.setProperty(kvs[i++], kvs[i++])
