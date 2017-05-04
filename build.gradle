@@ -44,9 +44,10 @@ project(':jet-engine') {
     apply plugin: 'groovy'
 
     dependencies {
-
+        compile project(':kafka-server')
         compile('org.codehaus.groovy:groovy-all:2.4.11')
         compile "com.hazelcast.jet:hazelcast-jet:${hazelcastJetVersion}"
+        compile ("com.hazelcast.jet:hazelcast-jet-kafka:${hazelcastJetVersion}")
         // TODO: remove
         // workaround https://github.com/hazelcast/hazelcast-jet/issues/366
         //  compile 'javax.cache:cache-api:1.0.0'
@@ -68,10 +69,12 @@ project(':kafka-server') {
         compile ('com.fasterxml.jackson.core:jackson-databind:2.8.8')
         compile("org.apache.kafka:kafka_${scalaVersion}:${kafkaVersion}") {
             exclude([group: 'org.slf4j', module: 'slf4j-log4j12'])
+            exclude([group: 'log4j'])
         }
 
         compile("org.apache.kafka:kafka_${scalaVersion}:${kafkaVersion}:test") {
             exclude([group: 'org.slf4j', module: 'slf4j-log4j12'])
+            exclude([group: 'log4j'])
         }
         compile "org.apache.kafka:kafka-clients:${kafkaVersion}:test"
 
