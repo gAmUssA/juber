@@ -5,11 +5,8 @@ import groovy.transform.CompileStatic
 
 @Canonical
 @CompileStatic
-class Message {
-    String driver
-    LngLat lngLat
-    String rider
-    String status
-    long timestamp
-    Route route
+class Instruction {
+    String instruction
+    String type
+    Location location
 }
