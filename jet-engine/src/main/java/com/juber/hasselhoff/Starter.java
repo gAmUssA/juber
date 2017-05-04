@@ -1,4 +1,4 @@
-package com.hazecast.copenhagen;
+package com.juber.hasselhoff;
 
 import com.hazelcast.jet.Jet;
 
