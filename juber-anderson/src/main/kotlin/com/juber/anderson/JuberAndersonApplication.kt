@@ -3,6 +3,7 @@ package com.juber.anderson
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.hazelcast.jet.Jet
 import com.hazelcast.jet.JetInstance
+import com.juber.hasselhoff.jet.StreamHelper
 import com.juber.kafka.MessageSerializer
 import com.juber.model.Message
 import org.apache.kafka.clients.consumer.KafkaConsumer

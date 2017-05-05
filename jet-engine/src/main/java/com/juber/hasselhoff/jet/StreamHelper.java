@@ -1,4 +1,4 @@
-package com.juber.anderson;
+package com.juber.hasselhoff.jet;
 
 import com.hazelcast.jet.JetInstance;
 import com.hazelcast.jet.stream.IStreamMap;

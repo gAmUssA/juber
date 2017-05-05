@@ -42,6 +42,7 @@ project(':juber-common') {
 
 project(':jet-engine') {
     apply plugin: 'groovy'
+    apply plugin: 'java'
 
     dependencies {
         compile project(':kafka-server')
