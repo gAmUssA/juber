@@ -83,7 +83,7 @@
 
     map.on('click', function (e) {
         if (driver == null) {
-            if (marker == null) {
+            if (marker == null || data.status == 'pickedup') {
                 var el = document.createElement('i');
                 el.className = 'marker icon ion-ios-body';
                 marker = new mapboxgl.Marker(el, {offset: [-12, -24]}).setLngLat(e.lngLat).addTo(map);
@@ -126,6 +126,10 @@
             // todo: hide other drivers
         }
 
+        if (data.status == 'pickedup') {
+            window.clearInterval(updater);
+        }
+
         if (driverMarkers[data.driver] == null) {
             var el = document.createElement('i');
             el.className = 'marker icon ion-android-car';
@@ -138,7 +142,7 @@
         }
     };
 
-    window.setInterval(function () {
+    var updater = window.setInterval(function () {
         if ((marker != null) && (ws.readyState == 1)) {
             ws.send(JSON.stringify({rider: uuid, lngLat: marker.getLngLat(), status: status, driver: driver, timestamp: new Date().getTime()}));
         }

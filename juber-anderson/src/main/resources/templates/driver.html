@@ -59,6 +59,11 @@
 
     mapboxgl.accessToken = [[${accesstoken}]];
 
+    var riderMarkers = {};
+
+    var status = 'available';
+    var rider = null;
+
     var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v9',
@@ -88,13 +93,15 @@
         var drivingInterval = window.setInterval(function () {
             if (metersTraveled >= route.distance) {
                 window.clearInterval(drivingInterval);
+                window.clearInterval(updater);
+                status = "pickedup";
             }
             else {
                 var along = turf.along(line, metersTraveled / 1000, 'kilometers');
                 marker.setLngLat(along.geometry.coordinates);
                 metersTraveled = metersTraveled + metersPerSecond;
             }
-        }, 1000);
+        }, (500 + Math.random() * 500));
     });
 
     map.addControl(directions);
@@ -116,11 +123,6 @@
             uuid: uuid
         }
     });
-
-    var riderMarkers = {};
-
-    var status = 'available';
-    var rider = null;
 
     var ws = new WebSocket([[${wsurl}]]);
     ws.onmessage = function (event) {
@@ -144,7 +146,7 @@
         }
     };
 
-    window.setInterval(function () {
+    var updater = window.setInterval(function () {
         if ((marker != null) && (ws.readyState == 1)) {
             ws.send(JSON.stringify({driver: uuid, lngLat: marker.getLngLat(), status: status, rider: rider, timestamp: new Date().getTime()}));
         }
