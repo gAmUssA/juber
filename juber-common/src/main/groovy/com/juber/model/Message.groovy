@@ -5,7 +5,7 @@ import groovy.transform.CompileStatic
 
 @Canonical
 @CompileStatic
-class Message {
+class Message implements Serializable {
     String driver
     LngLat lngLat
     String rider

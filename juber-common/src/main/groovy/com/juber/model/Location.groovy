@@ -5,7 +5,7 @@ import groovy.transform.CompileStatic
 
 @Canonical
 @CompileStatic
-class Location {
+class Location implements Serializable {
     String type
     double[] coordinates
 }

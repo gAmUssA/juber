@@ -57,6 +57,17 @@ project(':jet-engine') {
 
         // stuff
         // compileOnly('org.projectlombok:lombok:1.16.10')
+
+        task run(type: JavaExec) {
+            description 'Starts Hazelcast Jet Member'
+            main = 'com.juber.hasselhoff.jet.Member'
+            classpath = sourceSets.main.runtimeClasspath
+            /*if (project.hasProperty('custom')) {
+                // Pass command-line argument to script.
+                args project.getProperty('custom')
+            }*/
+        }
+
     }
 }
 // TODO: rename project to juber-kafka

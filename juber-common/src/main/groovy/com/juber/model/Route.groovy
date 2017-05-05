@@ -5,7 +5,7 @@ import groovy.transform.CompileStatic
 
 @Canonical
 @CompileStatic
-class Route {
+class Route implements Serializable {
     long distance
     long duration
     Step[] steps

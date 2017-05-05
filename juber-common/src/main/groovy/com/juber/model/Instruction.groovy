@@ -5,7 +5,7 @@ import groovy.transform.CompileStatic
 
 @Canonical
 @CompileStatic
-class Instruction {
+class Instruction implements Serializable {
     String instruction
     String type
     Location location

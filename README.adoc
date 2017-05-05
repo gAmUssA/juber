@@ -39,3 +39,15 @@ toc::[]
 ----
 ./gradlew kafka-server:run
 ----
+
+=== Start webapp
+
+----
+./gradlew juber-anderson:bootRun
+----
+
+=== Start Hazelcast Jet member
+
+----
+./gradlew jet-engine:run
+----

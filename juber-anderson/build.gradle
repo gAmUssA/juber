@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.1.2'
+		kotlinVersion = '1.1.2-2'
 		springBootVersion = '1.5.3.RELEASE'
 	}
 	repositories {
@@ -27,11 +27,6 @@ compileTestKotlin {
 	kotlinOptions.jvmTarget = "1.8"
 }
 
-repositories {
-	mavenCentral()
-}
-
-
 dependencies {
 	compile project(':juber-common')
 	compile project(':kafka-server')
@@ -41,6 +36,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-websocket')
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
 	compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+	compile("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile("org.apache.kafka:kafka-clients:0.10.2.1")
 }
