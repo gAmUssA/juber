@@ -1,6 +1,10 @@
 package com.juber.anderson
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.hazelcast.jet.Distributed
+import com.hazelcast.jet.Jet
+import com.hazelcast.jet.JetInstance
+import com.hazelcast.jet.stream.DistributedStream
 import com.juber.kafka.MessageSerializer
 import com.juber.model.Message
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -14,10 +18,13 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
@@ -63,12 +70,14 @@ class Configuration {
     }
 
     @Bean
-    fun kafka_producer(@Qualifier("kafka") properties: Properties): KafkaProducer<String, Message> = KafkaProducer(properties)
+    fun kafka_producer(@Qualifier("kafka") properties: Properties) = KafkaProducer<String, Message>(properties)
 
     @Bean
-    fun kafka_consumer_supplier(@Qualifier("kafka") properties: Properties): Supplier<KafkaConsumer<String, Message>> {
-        return Supplier { KafkaConsumer<String, Message>(properties) }
-    }
+    fun kafka_consumer_supplier(@Qualifier("kafka") properties: Properties) =
+            Supplier { KafkaConsumer<String, Message>(properties) }
+
+    @Bean
+    fun jet_client() = Jet.newJetClient()
 }
 
 @Controller
@@ -87,6 +96,15 @@ class ViewController {
         model.addAttribute("accesstoken", accessToken)
         model.addAttribute("wsurl", "ws://localhost:8080/driver-ws")
         return "driver"
+    }
+}
+
+@RestController
+class AdminController(@Autowired val jetInstance: JetInstance) {
+    @GetMapping("/api/statistics", produces = arrayOf(MediaType.APPLICATION_JSON_UTF8_VALUE))
+    fun statistics(): String {
+        val avg = StreamHelper.avg(jetInstance)
+        return "{ avg: $avg }"
     }
 }
 
