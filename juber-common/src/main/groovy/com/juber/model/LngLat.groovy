@@ -5,7 +5,7 @@ import groovy.transform.CompileStatic;
 
 @Canonical
 @CompileStatic
-class LngLat {
+class LngLat implements Serializable {
     double lat
     double lng
 }

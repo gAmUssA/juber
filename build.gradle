@@ -2,8 +2,8 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     repositories {
         jcenter()
@@ -47,37 +47,52 @@ project(':jet-engine') {
         compile project(':kafka-server')
         compile('org.codehaus.groovy:groovy-all:2.4.11')
         compile "com.hazelcast.jet:hazelcast-jet:${hazelcastJetVersion}"
-        compile ("com.hazelcast.jet:hazelcast-jet-kafka:${hazelcastJetVersion}")
+        compile("com.hazelcast.jet:hazelcast-jet-kafka:${hazelcastJetVersion}")
         // TODO: remove
         // workaround https://github.com/hazelcast/hazelcast-jet/issues/366
-        //  compile 'javax.cache:cache-api:1.0.0'
+        compile 'javax.cache:cache-api:1.0.0'
 
         // hazelcast
         compile "com.hazelcast:hazelcast-all:${hazelcastVersion}"
 
         // stuff
         // compileOnly('org.projectlombok:lombok:1.16.10')
+
+        task run(type: JavaExec) {
+            description 'Starts Hazelcast Jet Member'
+            main = 'com.juber.hasselhoff.jet.Member'
+            classpath = sourceSets.main.runtimeClasspath
+            /*if (project.hasProperty('custom')) {
+                // Pass command-line argument to script.
+                args project.getProperty('custom')
+            }*/
+        }
+
     }
 }
 // TODO: rename project to juber-kafka
 project(':kafka-server') {
     apply plugin: 'groovy'
+
     dependencies {
         compile project(':juber-common')
         compile('org.codehaus.groovy:groovy-all:2.4.11')
-        compile ('com.fasterxml.jackson.core:jackson-core:2.8.8')
-        compile ('com.fasterxml.jackson.core:jackson-databind:2.8.8')
+        compile('com.fasterxml.jackson.core:jackson-core:2.8.8')
+        compile('com.fasterxml.jackson.core:jackson-databind:2.8.8')
         compile("org.apache.kafka:kafka_${scalaVersion}:${kafkaVersion}") {
             exclude([group: 'org.slf4j', module: 'slf4j-log4j12'])
-            exclude([group: 'log4j'])
+            exclude([group: 'log4j', module: 'log4j'])
         }
-
         compile("org.apache.kafka:kafka_${scalaVersion}:${kafkaVersion}:test") {
             exclude([group: 'org.slf4j', module: 'slf4j-log4j12'])
             exclude([group: 'log4j'])
         }
         compile "org.apache.kafka:kafka-clients:${kafkaVersion}:test"
 
+    }
+    task run(type: JavaExec) {
+        classpath sourceSets.main.runtimeClasspath
+        main = "com.juber.kafka.KafkaServerStarter"
     }
 }
 

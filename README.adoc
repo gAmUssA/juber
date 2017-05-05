@@ -26,9 +26,28 @@ Preamble of a document TBD
 
 toc::[]
 
-== How to  build
+== How to build
 
 ----
 ./gradlew clean build
 ----
 
+== How to run
+
+=== Start Kafka server
+
+----
+./gradlew kafka-server:run
+----
+
+=== Start webapp
+
+----
+./gradlew juber-anderson:bootRun
+----
+
+=== Start Hazelcast Jet member
+
+----
+./gradlew jet-engine:run
+----

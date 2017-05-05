@@ -1,7 +1,7 @@
 package com.juber.kafka
 
 import groovy.transform.CompileStatic
-import groovy.util.logging.Log4j
+import groovy.util.logging.Slf4j
 import kafka.server.KafkaConfig
 import kafka.server.KafkaServer
 import kafka.utils.MockTime
@@ -14,7 +14,7 @@ import org.I0Itec.zkclient.ZkClient
 import java.nio.file.Files
 
 @CompileStatic
-@Log4j("logger")
+@Slf4j("logger")
 class KafkaServerStarter {
 
     private EmbeddedZookeeper zkServer
