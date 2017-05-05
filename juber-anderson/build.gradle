@@ -30,6 +30,7 @@ compileTestKotlin {
 dependencies {
 	compile project(':juber-common')
 	compile project(':kafka-server')
+	compile project(':jet-engine')
 	compile('org.springframework.boot:spring-boot-starter-cache')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
