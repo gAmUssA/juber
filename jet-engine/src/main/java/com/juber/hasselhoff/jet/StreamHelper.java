@@ -3,7 +3,6 @@ package com.juber.hasselhoff.jet;
 import com.hazelcast.jet.JetInstance;
 import com.hazelcast.jet.stream.IStreamMap;
 import com.juber.model.Message;
-import kotlin.Pair;
 
 public class StreamHelper {
 
@@ -20,6 +19,24 @@ public class StreamHelper {
            )
            .map(pair -> ((double) pair.component1()) / pair.component2())
            .orElseThrow(() -> new RuntimeException());
+    }
+
+    public static class Pair<V1, V2> {
+        private final V1 component1;
+        private final V2 component2;
+
+        public Pair(V1 component1, V2 component2) {
+            this.component1 = component1;
+            this.component2 = component2;
+        }
+
+        public V1 component1() {
+            return component1;
+        }
+
+        public V2 component2() {
+            return component2;
+        }
     }
 
 }
