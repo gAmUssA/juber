@@ -22,9 +22,20 @@ Viktor Gamov <viktor@hazelcast.com>, © 2017 Hazelcast, Inc.
 :highlightjs-theme: idea
 :experimental:
 
-Preamble of a document TBD
+A uber-like data piplene application example
+
+NOTE: inspired by James Ward's Koober https://github.com/gAmUssA/juber
+
+WARNING: Holly War warning! Applications are written with Groovy and Kotlin.
 
 toc::[]
+
+== Into
+
+The application consists Web UI (driver and rider).
+A rider initiates a pick up and the driver picks her.
+
+image::driver_picks_rider.gif[]
 
 == How to build
 
@@ -34,20 +45,27 @@ toc::[]
 
 == How to run
 
-=== Start Kafka server
+a sequence of steps
 
+- start Hazelcast Jet member
++
+
+----
+./gradlew jet-engine:runMember
+----
+
+- start embedded Kafka server
++
 ----
 ./gradlew kafka-server:run
 ----
 
-=== Start webapp
+- start WebApp
++
 
 ----
 ./gradlew juber-anderson:bootRun
 ----
 
-=== Start Hazelcast Jet member
-
-----
-./gradlew jet-engine:run
-----
+- http://localhost:8080/rider - Rider's UI
+- http://localhost:8080/driver - Driver's UI
