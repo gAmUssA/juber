@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.hazelcast.HazelcastAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
@@ -34,7 +35,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler
 import java.util.*
 import java.util.function.Supplier
 
-@SpringBootApplication
+@SpringBootApplication(exclude = arrayOf(HazelcastAutoConfiguration::class))
 class JuberAndersonApplication
 
 fun main(args: Array<String>) {

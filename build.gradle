@@ -39,7 +39,7 @@ project(':juber-common') {
         compile('org.codehaus.groovy:groovy-all:2.4.11')
     }
 }
-
+// TODO: rename the project as juber-jet
 project(':jet-engine') {
     apply plugin: 'groovy'
     apply plugin: 'java'
@@ -59,7 +59,7 @@ project(':jet-engine') {
         // stuff
         // compileOnly('org.projectlombok:lombok:1.16.10')
 
-        task run(type: JavaExec) {
+        task runMember(type: JavaExec) {
             description 'Starts Hazelcast Jet Member'
             main = 'com.juber.hasselhoff.jet.Member'
             classpath = sourceSets.main.runtimeClasspath
@@ -67,6 +67,12 @@ project(':jet-engine') {
                 // Pass command-line argument to script.
                 args project.getProperty('custom')
             }*/
+        }
+
+        task runClient(type: JavaExec) {
+            description 'Starts Hazelcast Jet Client'
+            main = 'com.juber.hasselhoff.jet.JuberJetClient'
+            classpath = sourceSets.main.runtimeClasspath
         }
 
     }
